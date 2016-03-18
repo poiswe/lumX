@@ -340,7 +340,11 @@
 
                 for (var i = 0; i < clone.length; i++)
                 {
-                    template += clone[i].outerHTML || '';
+                    if(clone[i].outerHTML !== undefined)
+                        template += clone[i].outerHTML || '';
+                    else
+                        template += clone[i].nodeValue || '';
+                    
                 }
 
                 ctrls[1].registerSelectedTemplate(template);
@@ -402,7 +406,10 @@
 
                 for (var i = 0; i < clone.length; i++)
                 {
-                    template += clone[i].outerHTML || '';
+                    if(clone[i].outerHTML !== undefined)
+                        template += clone[i].outerHTML || '';
+                    else
+                        template += clone[i].nodeValue || '';
                 }
 
                 ctrls[1].registerChoiceTemplate(template);
