@@ -78,6 +78,8 @@
         lxDatePicker.isOpen = false;
         lxDatePicker.moment = moment;
         lxDatePicker.yearSelection = false;
+        
+        lxDatePicker.formatterAttached = false;
 
         $transclude(function(clone)
         {
@@ -236,10 +238,16 @@
                     });
                 }
 
-                if (angular.isDefined(modelController) && lxDatePicker.inputFormat)
+                if (!lxDatePicker.formatterAttached && angular.isDefined(modelController) && lxDatePicker.inputFormat) 
                 {
-                    modelController.$setViewValue(angular.copy(_day).format(lxDatePicker.inputFormat));
-                    modelController.$render();
+                    modelController.$formatters.push(function (value) 
+                    {
+                        if (value) 
+                        {
+                            return moment(value).format(lxDatePicker.inputFormat);
+                        }
+                    });
+                    lxDatePicker.formatterAttached = true;
                 }
 
                 generateCalendar();
