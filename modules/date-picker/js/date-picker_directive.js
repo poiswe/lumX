@@ -112,6 +112,13 @@
 
         function displayYearSelection()
         {
+            //toggle year selection
+            if (lxDatePicker.yearSelection === true)
+            {
+                hideYearSelection(); 
+                return;
+            }
+            
             lxDatePicker.yearSelection = true;
 
             timer2 = $timeout(function()
