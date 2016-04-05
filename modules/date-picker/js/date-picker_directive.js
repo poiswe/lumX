@@ -51,9 +51,9 @@
         }
     }
 
-    LxDatePickerController.$inject = ['$document', '$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService'];
+    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService'];
 
-    function LxDatePickerController($document, $element, $scope, $timeout, $transclude, LxDatePickerService)
+    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService)
     {
         var lxDatePicker = this;
         var input;
@@ -123,7 +123,7 @@
 
             timer2 = $timeout(function()
             {
-                var yearSelector = $document.find('.lx-date-picker__year-selector');
+                var yearSelector = lxDatePicker.element.find('.lx-date-picker__year-selector');
                 var activeYear = yearSelector.find('.lx-date-picker__year--is-active');
 
                 yearSelector.scrollTop(yearSelector.scrollTop() + activeYear.position().top - yearSelector.height() / 2 + activeYear.height() / 2);
@@ -207,8 +207,6 @@
             {
                 lxDatePicker.years.push(y);
             }
-
-            generateCalendar();
         }
 
         function nextMonth()
@@ -220,7 +218,16 @@
 
         function openDatePicker()
         {
+            if (lxDatePicker.ngModel) 
+            {
+                lxDatePicker.ngModelMoment = moment(lxDatePicker.ngModel);
+            }
+
+            generateCalendar();
+            
             LxDatePickerService.open(lxDatePicker.pickerId);
+            
+            hideYearSelection();
         }
 
         function previousMonth()
