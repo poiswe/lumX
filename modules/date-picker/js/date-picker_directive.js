@@ -198,7 +198,7 @@
         {
             moment.locale(lxDatePicker.locale);
 
-            lxDatePicker.ngModelMoment = angular.isDefined(lxDatePicker.ngModel) ? moment(angular.copy(lxDatePicker.ngModel)) : moment();
+            lxDatePicker.ngModelMoment = (angular.isDefined(lxDatePicker.ngModel) && lxDatePicker.ngModel !== undefined && lxDatePicker.ngModel !== null && moment.isDate(lxDatePicker.ngModel)) ? moment(angular.copy(lxDatePicker.ngModel)) : moment();
             lxDatePicker.days = [];
             lxDatePicker.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
             lxDatePicker.years = [];
@@ -218,16 +218,11 @@
 
         function openDatePicker()
         {
-            if (lxDatePicker.ngModel) 
-            {
-                lxDatePicker.ngModelMoment = moment(lxDatePicker.ngModel);
-            }
+            hideYearSelection();
 
             generateCalendar();
-            
+
             LxDatePickerService.open(lxDatePicker.pickerId);
-            
-            hideYearSelection();
         }
 
         function previousMonth()
